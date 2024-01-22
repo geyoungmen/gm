@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="" method="post">
+   <ul>
+        <li th:each="comment : ${kk}">
+            <p th:text="${comment.comment}"></p>
+            동의
+         	<input type="radio" name="chk_info" value="3">
+			<input type="radio" name="chk_info" value="2">
+			<input type="radio" name="chk_info" value="1">
+			<input type="radio" name="chk_info" value="0">
+			<input type="radio" name="chk_info" value="1">
+			<input type="radio" name="chk_info" value="2">
+			<input type="radio" name="chk_info" value="3">
+			비동의
+        </li>
+    </ul>
+<button type="submit">MBTI 검사하기</button>
+</body>
+</html>

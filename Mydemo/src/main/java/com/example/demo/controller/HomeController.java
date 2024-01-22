@@ -33,7 +33,6 @@ public class HomeController {
 		
 		return "content/home";
 	}
-	//깃 커밋 테스트
 	//@PostMapping("calendar")
 	@RequestMapping(value = "calendar", method=RequestMethod.POST)
 	@ResponseBody
