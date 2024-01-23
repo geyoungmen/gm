@@ -3,6 +3,7 @@
 
 <mapper namespace="com.example.demo.mapper.MbtiMapper">
 	<select id="getMbtiComment" resultType="MbtiForm">
-		select comment from mbti_table
+		select comment, number
+		 from mbti_table
 	</select>
 </mapper>

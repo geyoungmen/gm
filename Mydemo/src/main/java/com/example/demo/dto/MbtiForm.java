@@ -8,6 +8,7 @@ import lombok.Setter;
 public class MbtiForm {
 
 	@Getter@Setter private String comment;
+	@Getter@Setter private int number;
 	
 
 }
