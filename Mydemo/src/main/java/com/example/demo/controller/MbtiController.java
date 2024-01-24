@@ -22,10 +22,9 @@ public class MbtiController {
 	MbtiService mbtiservice;
 	
 	@RequestMapping(value = "/mbti", method=RequestMethod.GET)
-	public String Mbti(HttpServletRequest request, Model mv) {
+	public String Mbti(Model mv) {
 		
 		List<MbtiForm> commentList = mbtiservice.getMbtiComment();
-		//System.out.println(commentList);
 		
 		mv.addAttribute("commentList", commentList);
 		

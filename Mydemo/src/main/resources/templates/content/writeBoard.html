@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<h1>글 작성</h1>
+<form id="writeBoard">
+
+<div>제목</div>
+<div>
+<input name="brdSub" id="brdSub" type="text">
+</div>
+
+<div>내용</div>
+<div>
+<textarea name="brdContent" id="brdContent" type="text"></textarea>
+</div>
+<button type="button" id="write-btn">글 작성하기</button>
+</form>
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $("#write-btn").click(function() {
+    	var brdSub = $("#brdSub").val();
+    	var brdContent = $("#brdContent").val();
+    	$.ajax({
+            type: "POST",
+            url: "/writeBoard",
+            data: {
+                brdSub: brdSub,
+                brdContent: brdContent
+            },
+            success: function(data) {
+                alert("글 작성 완료 ");
+                window.location.href = "/board";
+            },
+            error: function() {
+                alert("작성 실패");
+            }
+        });
+    });
+});
+
+</script>
+</body>
+</html>

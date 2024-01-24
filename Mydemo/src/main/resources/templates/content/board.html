@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<table>
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="board : ${boardList}">
+            <td th:text="${board.brdNo}"></td>
+            <td th:text="${board.brdSub}"></td>
+            <td th:text="${board.brdContent}"></td>
+            <td th:text="${board.brdDate}"></td>
+        </tr>
+    </tbody>
+</table>
+<button type="button" onClick="location.href='/writeBoard'" >글 작성하기</button>
+
+<script type="text/javascript">
+
+/* $(document).ready(function() {
+    $("#submit-btn").click(function() {
+    	var formData = $("#mbtiForm").serialize();
+    	
+    	$.ajax({
+            type: "POST",
+            url: "/mbtiSubmit",
+            data: formData,
+            success: function(resultMbti) {
+                alert("MBTI 결과: " + resultMbti);
+            },
+            error: function() {
+                alert("서버와의 통신에 실패했습니다.");
+            }
+        });
+    });
+});
+ */
+</script>
+
+</body>
+</html>
