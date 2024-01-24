@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-<form action="mbtiSubmit" method="post">
+<!-- <form action="mbtiSubmit" method="post"> -->
+<form id="mbtiForm">
    <ul>
         <li th:each="list,iterStat : ${commentList}">
         <p th:text="${list.comment}"></p>
             동의
-         	<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="3">
+         	<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="3" checked="checked">
 			<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="2">
 			<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="1">
 			<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="0">
@@ -20,6 +22,31 @@
 			비동의
         </li>
    </ul>
-<button type="submit">MBTI 검사하기</button></form>
+<button type="button" id="submit-btn">MBTI 검사하기</button>
+</form>
+<!--  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+src="https://code.jquery.com/jquery-3.2.1.min.js"  -->
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $("#submit-btn").click(function() {
+    	var formData = $("#mbtiForm").serialize();
+    	
+    	$.ajax({
+            type: "POST",
+            url: "/mbtiSubmit",
+            data: formData,
+            success: function(resultMbti) {
+                alert("MBTI 결과: " + resultMbti);
+            },
+            error: function() {
+                alert("서버와의 통신에 실패했습니다.");
+            }
+        });
+    });
+});
+
+</script>
+
 </body>
 </html>

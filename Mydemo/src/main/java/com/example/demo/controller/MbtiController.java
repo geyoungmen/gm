@@ -1,12 +1,14 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.MbtiForm;
@@ -32,16 +34,16 @@ public class MbtiController {
 	
 	@RequestMapping(value = "mbtiSubmit", method=RequestMethod.POST)
 	@ResponseBody
-	public String MbtiSubmit(HttpServletResponse response, HttpServletRequest request) {
+	public String MbtiSubmit(HttpServletResponse response, HttpServletRequest request,@RequestParam Map<String, String> formData) {
 		int EI = 0;
 		int NS = 0;
 		int FT = 0;
 		int JP = 0;
+		
 		for (int i = 0; i < 5; i++) {
 		    String paramName = "list_" + i;
 		    String paramValue = request.getParameter(paramName);
 		    
-		    // 값이 null이 아니고 빈 문자열이 아닌 경우에만 더하기
 		    if (paramValue != null && !paramValue.isEmpty()) {
 		        EI += Integer.parseInt(paramValue);
 		    }
@@ -51,7 +53,6 @@ public class MbtiController {
 		    String paramName = "list_" + i;
 		    String paramValue = request.getParameter(paramName);
 		    
-		    // 값이 null이 아니고 빈 문자열이 아닌 경우에만 더하기
 		    if (paramValue != null && !paramValue.isEmpty()) {
 		        NS += Integer.parseInt(paramValue);
 		    }
@@ -61,7 +62,6 @@ public class MbtiController {
 			String paramName = "list_" + i;
 			String paramValue = request.getParameter(paramName);
 			
-			// 값이 null이 아니고 빈 문자열이 아닌 경우에만 더하기
 			if (paramValue != null && !paramValue.isEmpty()) {
 				FT += Integer.parseInt(paramValue);
 			}
@@ -71,7 +71,6 @@ public class MbtiController {
 			String paramName = "list_" + i;
 			String paramValue = request.getParameter(paramName);
 			
-			// 값이 null이 아니고 빈 문자열이 아닌 경우에만 더하기
 			if (paramValue != null && !paramValue.isEmpty()) {
 				JP += Integer.parseInt(paramValue);
 			}
@@ -82,7 +81,7 @@ public class MbtiController {
 		String resultNS = (NS > 0) ? "N" : "S";
 		String resultFT = (FT > 0) ? "F" : "T";
 		String resultJP = (JP > 0) ? "J" : "P";
-		
+		System.out.println("formData:" + formData);
 		System.out.println("resultEI: " + resultEI);
 		System.out.println("resultNS: " + resultNS);
 		System.out.println("resultFT: " + resultFT);
@@ -92,5 +91,6 @@ public class MbtiController {
 		
 		System.out.println("resultMbti : " + resultMbti);
 		return resultMbti;
+		//return "redirect:mbti";
 	}
 }
