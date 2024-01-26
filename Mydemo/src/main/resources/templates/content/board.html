@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be3ebfec9e9394873c640a4bb0166425"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -29,35 +31,28 @@
 </table>
 </form>
 <button type="button" onClick="location.href='/writeBoard'" >글 작성하기</button>
-
+<button onclick=popup()>네이버열기</button>
+<button onclick=openMap()>카카오맵열기</button>
 <script type="text/javascript">
-
-  /* $(document).ready(function() {
-    $("#detail").click(function() {
-    	e.preventDefault();
-    	//var formData = $("#mbtiForm").serialize();
-    	var brdNo = $(this).attr("data-brdNo");
-    	$.ajax({
-            type: "GET",
-            url: "/detailBoard",
-            data: { No: brdNo },
-            success: function(data) {
-                alert("이동하기");
-            },
-            error: function() {
-                alert("서버와의 통신에 실패했습니다.");
-            }
-        });
-    });
-}); 
-  */
-  
   function subMit(brdNo) {
 	  //var data1 = {No : data2};
 	  //onclick에서 brdNo를 받아와 brdNo에 넣고 map형식의 parms로 get에 보낸다 이때 brdNo=No
 	  location.href = '/detailBoard?No='+ brdNo;
 	  
   }
+		
+	function popup(){
+	  let options = "toolbar=no,scrollbars=no,resizable=yes,status=no,menubar=no,width=1200, height=800, top=0,left=0";
+
+	  window.open("http://www.naver.com","_blank", options);
+	}
+		
+	function openMap(){
+	  let options = "toolbar=no,scrollbars=no,resizable=yes,status=no,menubar=no,width=500, height=400, top=0,left=0";
+
+	  window.open('/kakaoMap',"_blank", options);
+	}
+		
 </script>
 
 </body>

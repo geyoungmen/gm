@@ -6,26 +6,26 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <form id="detailBoard">
 <div>Title</div>
-<div th:text="${detailboard.brdSub}"></div>
-<div>Content</div>
-<div th:text="${detailboard.brdContent}"></div>
+<input name="brdSub" id="brdSub"  th:value="${detailboard.brdSub}">
 
-<input type="hidden" th:value="${detailboard.brdSub}" id="brdSub">
-<input type="hidden" th:value="${detailboard.brdContent}" id="brdContent">
+<div>Content</div>
+<textarea name="brdContent" id="brdContent" th:text="${detailboard.brdContent}">
+</textarea>
+
 <input type="hidden" th:value="${detailboard.brdNo}" id="brdNo">
 
-<!-- <button type="button" id="update-btn" onClick="location.href='/writeBoard'" >수정</button> -->
-<button type="button" id="update-btn" th:onclick="updateBoard([[${detailboard.brdNo}]])" >수정</button>
-<button type="button" id="delete-btn">삭제</button>
+<button type="button" id="update-btn">수정하기</button> 
 <button type="button" onClick="location.href='/board'" >목록으로</button>
 
-</form>
 
+</form>
 <script type="text/javascript">
+
 $(document).ready(function() {
-    $("#delete-btn").click(function() {
+    $("#update-btn").click(function() {
         
         var dataToSend = {
             brdSub: $("#brdSub").val(),
@@ -35,28 +35,21 @@ $(document).ready(function() {
 
         $.ajax({
             type: "POST",
-            url: "/deleteBoard",
+            url: "/updateBoard",
             contentType: "application/json", // 요청 데이터의 타입을 JSON으로 설정
             data: JSON.stringify(dataToSend), // 데이터를 JSON 문자열로 변환
             success: function(data) {
-                alert("삭제 완료 ");
+                alert("수정 완료 ");
                 window.location.href = "/board";
             },
             error: function() {
-                alert("삭제 실패");
+                alert("수정 실패");
             }
         });
     });
 });
 
-function updateBoard(brdNo) {
-	//var brdNo = $("#brdNo").val();
-		
-	location.href = '/updateBoard?No='+ brdNo;
-	  
-}
 
 </script>
-
 </body>
 </html>
