@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form id="detailBoard">
+<div>Title</div>
+<div th:text="${detailboard.brdSub}"></div>
+<div>Content</div>
+<div th:text="${detailboard.brdContent}"></div>
+
+<input type="hidden" th:value="${detailboard.brdSub}" id="brdSub">
+<input type="hidden" th:value="${detailboard.brdContent}" id="brdContent">
+<input type="hidden" th:value="${detailboard.brdNo}" id="brdNo">
+
+<button type="button" id="update-btn" onClick="location.href='/writeBoard'" >수정</button>
+<button type="button" id="delete-btn">삭제</button>
+
+</div>
+</form>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#delete-btn").click(function() {
+        
+        var dataToSend = {
+            brdSub: $("#brdSub").val(),
+            brdContent: $("#brdContent").val(),
+            brdNo: $("#brdNo").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/deleteBoard",
+            contentType: "application/json", // 요청 데이터의 타입을 JSON으로 설정
+            data: JSON.stringify(dataToSend), // 데이터를 JSON 문자열로 변환
+            success: function(data) {
+                alert("삭제 완료 ");
+                window.location.href = "/board";
+            },
+            error: function() {
+                alert("삭제 실패");
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

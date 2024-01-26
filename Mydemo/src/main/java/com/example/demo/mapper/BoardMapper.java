@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,6 +12,12 @@ public interface BoardMapper {
 	
 	int insertBoard(BoardForm board);
 	
+	int updateBoard(BoardForm board);
+	
+	int deleteBoard(BoardForm board);
+	
 	List<BoardForm> getBoard();
+	
+	Map<String, Object> detailBoard(BoardForm board);
 	
 }

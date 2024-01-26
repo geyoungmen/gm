@@ -17,7 +17,7 @@
 
 <div>내용</div>
 <div>
-<textarea name="brdContent" id="brdContent" type="text"></textarea>
+<textarea name="brdContent" id="brdContent"></textarea>
 </div>
 <button type="button" id="write-btn">글 작성하기</button>
 </form>
@@ -35,8 +35,12 @@ $(document).ready(function() {
                 brdContent: brdContent
             },
             success: function(data) {
-                alert("글 작성 완료 ");
-                window.location.href = "/board";
+            	if(data <= 0) {
+            		alert("글 작성 실패 ");
+            	} else {
+            		alert("글 작성 성공");
+            		window.location.href = "/board";
+            	}
             },
             error: function() {
                 alert("작성 실패");

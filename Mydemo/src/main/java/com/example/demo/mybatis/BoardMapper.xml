@@ -18,7 +18,26 @@
 	
 	<delete id="deleteBoard">
 		delete from board_table 
-			where brd_sub = #{brdSub}
+			where brd_sub 	= #{brdSub}
+			and brd_content = #{brdContent}
+			and brd_no 		= #{brdNo}
 	</delete>
+    
+    <update id="updateBoard">
+    update board_table set 
+		brd_sub = #{brdSub},
+        brd_content = #{brdContent}
+    where brd_no = #{brdNo}
+    </update>
+    
+    <select id="detailBoard" resultType="Map">
+    	select 
+			brd_no 		AS brdNo,
+			brd_sub 	AS brdSub,
+			brd_content AS brdContent,
+			brd_date 	AS brdDate
+		 from board_table
+		 where 	brd_no = #{brdNo}
+    </select>
     
 </mapper>

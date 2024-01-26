@@ -6,7 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<form id="zzz">
 <table>
     <thead>
         <tr>
@@ -19,34 +19,45 @@
     <tbody>
         <tr th:each="board : ${boardList}">
             <td th:text="${board.brdNo}"></td>
-            <td th:text="${board.brdSub}"></td>
+            <td>
+	            <input type="button" th:onclick="subMit([[${board.brdNo}]])" th:value="${board.brdSub}"/>
+    		</td> 
             <td th:text="${board.brdContent}"></td>
             <td th:text="${board.brdDate}"></td>
         </tr>
     </tbody>
 </table>
+</form>
 <button type="button" onClick="location.href='/writeBoard'" >글 작성하기</button>
 
 <script type="text/javascript">
 
-/* $(document).ready(function() {
-    $("#submit-btn").click(function() {
-    	var formData = $("#mbtiForm").serialize();
-    	
+  /* $(document).ready(function() {
+    $("#detail").click(function() {
+    	e.preventDefault();
+    	//var formData = $("#mbtiForm").serialize();
+    	var brdNo = $(this).attr("data-brdNo");
     	$.ajax({
-            type: "POST",
-            url: "/mbtiSubmit",
-            data: formData,
-            success: function(resultMbti) {
-                alert("MBTI 결과: " + resultMbti);
+            type: "GET",
+            url: "/detailBoard",
+            data: { No: brdNo },
+            success: function(data) {
+                alert("이동하기");
             },
             error: function() {
                 alert("서버와의 통신에 실패했습니다.");
             }
         });
     });
-});
- */
+}); 
+  */
+  
+  function subMit(brdNo) {
+	  //var data1 = {No : data2};
+	  //onclick에서 brdNo를 받아와 brdNo에 넣고 map형식의 parms로 get에 보낸다 이때 brdNo=No
+	  location.href = '/detailBoard?No='+ brdNo;
+	  
+  }
 </script>
 
 </body>
