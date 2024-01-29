@@ -7,8 +7,9 @@ import lombok.Setter;
 @Data
 public class MbtiForm {
 
-	@Getter@Setter private String comment;
-	@Getter@Setter private int number;
+	@Getter@Setter private int mbtiNumber;
+	@Getter@Setter private String mbtiComment;
+	@Getter@Setter private String mbtiType;
 	
 
 }

@@ -10,15 +10,17 @@
 <form id="mbtiForm">
    <ul>
         <li th:each="list,iterStat : ${commentList}">
-        <p th:text="${list.comment}"></p>
+        <p th:text="${list.mbtiComment}"></p>
             동의
-         	<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="3" checked="checked">
-			<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="2">
-			<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="1">
-			<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="0">
-			<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="-1">
-			<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="-2">
-			<input type="radio" th:attr="name=${'list_' + iterStat.index}" value="-3">
+         	<input type="radio" th:attr="name=${list.mbtiType + iterStat.index}" th:value="7" >
+			<input type="radio" th:attr="name=${list.mbtiType + iterStat.index}" th:value="6">
+			<input type="radio" th:attr="name=${list.mbtiType + iterStat.index}" th:value="5">
+			<input type="radio" th:attr="name=${list.mbtiType + iterStat.index}" th:value="4" checked="checked">
+			<input type="radio" th:attr="name=${list.mbtiType + iterStat.index}" th:value="3">
+			<input type="radio" th:attr="name=${list.mbtiType + iterStat.index}" th:value="2">
+			<input type="radio" th:attr="name=${list.mbtiType + iterStat.index}" th:value="1">
+			<!-- <input type="text" th:value="${list.mbtiType}" id="mbtiType"> -->
+			<!-- <input type="text" th:attr="name=${'type_' + iterStat.index}" id="mbtiType" th:value="${list.mbtiType}"> -->
 			비동의
         </li>
    </ul>
@@ -31,10 +33,16 @@ src="https://code.jquery.com/jquery-3.2.1.min.js"  -->
 $(document).ready(function() {
     $("#submit-btn").click(function() {
     	var formData = $("#mbtiForm").serialize();
+    	/* var formData = 
+    	 {
+             formList: $("#mbtiForm").serialize(),
+             type: $("#mbtiType").serialize()
+         }; */
     	
     	$.ajax({
             type: "POST",
             url: "/mbtiSubmit",
+            //data: JSON.stringify(formData),
             data: formData,
             success: function(resultMbti) {
                 alert("MBTI 결과: " + resultMbti);
