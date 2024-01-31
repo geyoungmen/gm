@@ -28,11 +28,11 @@ public class Excel {
 		List<Map<Object, Object>> excelData = readExcel(path, fileName);
 
 		// 결과 확인!
-		for (int i = 0; i < excelData.size(); i++) {
-			System.out.println(excelData.get(i));
+		for (Map<Object, Object> element : excelData) {
+			System.out.println(element);
 			}
 		}
-	
+
 		public static List<Map<Object, Object>> readExcel(String path, String fileName) {
 			List<Map<Object, Object>> list = new ArrayList<>();
 			if (path == null || fileName == null) {

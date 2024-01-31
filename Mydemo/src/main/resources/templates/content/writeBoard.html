@@ -8,32 +8,43 @@
 <body>
 
 <h1>글 작성</h1>
-<form id="writeBoard">
+<form id="writeBoard" enctype="multipart/form-data" action="/writeBoard" method="post">
+<!-- <form id="writeBoard"> -->
 
 <div>제목</div>
 <div>
-<input name="brdSub" id="brdSub" type="text">
+<input name="brdSub" id="sub" type="text">
 </div>
 
 <div>내용</div>
 <div>
-<textarea name="brdContent" id="brdContent"></textarea>
+<textarea name="brdContent" id="content"></textarea>
 </div>
-<button type="button" id="write-btn">글 작성하기</button>
+
+<input type="file" name="file" id="file" multiple="multiple"/>
+
+<!-- <button type="button" id="write-btn">글 작성하기</button> -->
+<button type="submit" id="write-btn">글 작성하기</button>
 <button type="button" onClick="location.href='/board'" >목록으로</button>
+
 </form>
 <script type="text/javascript">
-
+/*
 $(document).ready(function() {
     $("#write-btn").click(function() {
-    	var brdSub = $("#brdSub").val();
-    	var brdContent = $("#brdContent").val();
+    	var brdSub = $("#sub").val();
+    	var brdContent = $("#content").val();
+    	var file = $("#file").val();
     	$.ajax({
             type: "POST",
             url: "/writeBoard",
+            enctype: 'multipart/form-data',
+            contentType: false, 
+            processData: false,
             data: {
                 brdSub: brdSub,
-                brdContent: brdContent
+                brdContent: brdContent,
+                file : file
             },
             success: function(data) {
             	if(data <= 0) {
@@ -49,7 +60,7 @@ $(document).ready(function() {
         });
     });
 });
-
+*/
 </script>
 </body>
 </html>

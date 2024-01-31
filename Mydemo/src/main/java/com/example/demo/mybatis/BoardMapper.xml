@@ -3,16 +3,19 @@
 <mapper namespace="com.example.demo.mapper.BoardMapper">
 
 	<insert id="insertBoard">
-        INSERT INTO board_table (brd_sub, brd_content, brd_date)
-        VALUES (#{brdSub}, #{brdContent}, CURRENT_TIMESTAMP)
+        INSERT INTO board_table (brd_sub, brd_content, brd_date, file_ori_name, file_url, file_name)
+        VALUES (#{brdSub}, #{brdContent}, CURRENT_TIMESTAMP, #{fileOriName}, #{fileUrl}, #{fileName})
     </insert>
     
     <select id="getBoard" resultType="BoardForm">
 		select 
-			brd_no 		AS brdNo,
-			brd_sub 	AS brdSub,
-			brd_content AS brdContent,
-			brd_date 	AS brdDate
+			brd_no 			AS brdNo,
+			brd_sub 		AS brdSub,
+			brd_content 	AS brdContent,
+			brd_date 		AS brdDate,
+			file_ori_name 	AS fileOriName,
+			file_url		AS fileUrl,
+			file_name		AS fileName
 		 from board_table
 	</select>
 	

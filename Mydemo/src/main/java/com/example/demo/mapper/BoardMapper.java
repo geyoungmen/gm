@@ -9,15 +9,16 @@ import com.example.demo.dto.BoardForm;
 
 @Mapper
 public interface BoardMapper {
-	
+
 	int insertBoard(BoardForm board);
-	
+	//int insertBoard(BoardForm board, MultipartFile file);
+
 	int updateBoard(BoardForm board);
-	
+
 	int deleteBoard(BoardForm board);
-	
+
 	List<BoardForm> getBoard();
-	
+
 	Map<String, Object> detailBoard(BoardForm board);
-	
+
 }

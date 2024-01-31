@@ -12,9 +12,9 @@ import com.example.demo.mapper.MbtiMapper;
 public class MbtiService {
 	@Autowired
 	public MbtiMapper mapper;
-	
+
 	public List<MbtiForm> getMbtiComment(){
 		return mapper.getMbtiComment();
 	}
-	
+
 }
