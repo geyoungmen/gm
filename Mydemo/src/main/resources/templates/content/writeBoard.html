@@ -34,17 +34,17 @@ $(document).ready(function() {
     $("#write-btn").click(function() {
     	var brdSub = $("#sub").val();
     	var brdContent = $("#content").val();
-    	var file = $("#file").val();
+    	//var file = $("#file").val();
     	$.ajax({
             type: "POST",
             url: "/writeBoard",
-            enctype: 'multipart/form-data',
-            contentType: false, 
-            processData: false,
+            //enctype: 'multipart/form-data',
+            //contentType: false, 
+            //processData: false,
             data: {
                 brdSub: brdSub,
-                brdContent: brdContent,
-                file : file
+                brdContent: brdContent
+                //file : file
             },
             success: function(data) {
             	if(data <= 0) {

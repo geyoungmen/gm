@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.Mbti.MbtiCalculator;
 import com.example.demo.dto.MbtiForm;
 import com.example.demo.service.MbtiService;
 @Controller
@@ -91,7 +92,7 @@ public class MbtiController {
 		return resultMbti;
 		//return "redirect:mbti";
 	}*/
-
+	/*
 	@RequestMapping(value = "mbtiSubmit", method=RequestMethod.POST)
 	@ResponseBody
 	public String MbtiSubmit(@RequestParam Map<String, String> formData) {
@@ -395,6 +396,7 @@ public class MbtiController {
 	        resultEI = "E";
 	    } else {
 	        resultEI = (totaEI >= totaIE) ? "E" : "I";
+	        //resultEI = totaEI.compareTo(totaIE);
 	    }
 
 	    String resultNS;
@@ -408,7 +410,7 @@ public class MbtiController {
 	    if (totaFT == totaTF) {
 	    	resultFT = "F";
 	    } else {
-	    	resultFT = (totaFT >= totaFT) ? "F" : "T";
+	    	resultFT = (totaFT >= totaTF) ? "F" : "T";
 	    }
 
 	    String resultJP;
@@ -420,4 +422,148 @@ public class MbtiController {
 	    String resultMbti = resultEI + resultNS + resultFT + resultJP;
 	    return resultMbti;
 	}
+	*/
+	@RequestMapping(value = "mbtiSubmit", method=RequestMethod.POST)
+	@ResponseBody
+	public String MbtiSubmit(@RequestParam Map<String, String> formData) {
+		//EI
+		int[] E_EI = {0};
+		int[] I_EI = {0};
+		int[] E_IE = {0};
+		int[] I_IE = {0};
+		//NS
+		int[] N_NS = {0};
+		int[] S_NS = {0};
+		int[] N_SN = {0};
+		int[] S_SN = {0};
+		//FT
+		int[] F_FT = {0};
+		int[] T_FT = {0};
+		int[] F_TF = {0};
+		int[] T_TF = {0};
+		//JP
+		int[] J_JP = {0};
+		int[] P_JP = {0};
+		int[] J_PJ = {0};
+		int[] P_PJ = {0};
+		
+		for (int i = 0; i < 20; i++) {
+			String paramNameEI = "EI" + i;
+			String paramNameIE = "IE" + i;
+			String paramNameNS = "NS" + i;
+			String paramNameSN = "SN" + i;
+			String paramNameFT = "FT" + i;
+			String paramNameTF = "TF" + i;
+			String paramNameJP = "JP" + i;
+			String paramNamePJ = "PJ" + i;
+			
+			mbtiValue(formData, paramNameEI, E_EI, I_EI);
+			mbtiValue(formData, paramNameIE, I_IE, E_IE);
+			mbtiValue(formData, paramNameNS, N_NS, S_NS);
+			mbtiValue(formData, paramNameSN, S_SN, N_SN);
+			mbtiValue(formData, paramNameFT, F_FT, T_FT);
+			mbtiValue(formData, paramNameTF, T_TF, F_TF);
+			mbtiValue(formData, paramNameJP, J_JP, P_JP);
+			mbtiValue(formData, paramNamePJ, P_PJ, J_PJ);
+			
+		}
+		int totaEI = E_EI[0] + E_IE[0];
+		int totaIE = I_EI[0] + I_IE[0];
+		
+		int totaNS = N_NS[0] + N_SN[0];
+		int totaSN = S_NS[0] + S_SN[0];
+		
+		int totaFT = F_FT[0] + F_TF[0];
+		int totaTF = T_FT[0] + T_TF[0];
+		
+		int totaJP = J_JP[0] + J_PJ[0];
+		int totaPJ = P_JP[0] + P_PJ[0];
+		
+		String resultEI = (Integer.valueOf(totaEI)).compareTo(Integer.valueOf(totaIE)) >= 0 ? "E" : "I";
+		
+		/*
+		String resultEI;
+		if (totaEI == totaIE) {
+			resultEI = "E";
+		} else {
+			resultEI = (totaEI >= totaIE) ? "E" : "I";
+			//resultEI = totaEI.compareTo(totaIE);
+		}*/
+		
+		String resultNS = (Integer.valueOf(totaNS)).compareTo(Integer.valueOf(totaSN)) >= 0 ? "N" : "S";
+		/*
+		String resultNS;
+		if (totaNS == totaSN) {
+			resultNS = "N";
+		} else {
+			resultNS = (totaNS >= totaSN) ? "N" : "S";
+		}
+		*/
+		String resultFT = (Integer.valueOf(totaFT)).compareTo(Integer.valueOf(totaTF)) >= 0 ? "F" : "T";
+		/*
+		String resultFT;
+		if (totaFT == totaTF) {
+			resultFT = "F";
+		} else {
+			resultFT = (totaFT >= totaTF) ? "F" : "T";
+		}
+		*/
+		String resultJP = (Integer.valueOf(totaJP)).compareTo(Integer.valueOf(totaPJ)) >= 0 ? "J" : "P";
+		/*
+		String resultJP;
+		if (totaJP == totaPJ) {
+			resultJP = "J";
+		} else {
+			resultJP = (totaJP >= totaPJ) ? "J" : "P";
+		}
+		*/
+		String resultMbti = resultEI + resultNS + resultFT + resultJP;
+		return resultMbti;
+	}
+	
+	private static void mbtiValue(Map<String, String> formData, String paramName, int[] set1_value, int[] set2_value) {
+		String paramValue = formData.get(paramName);
+		if (paramValue != null) {
+			int value = Integer.parseInt(paramValue);
+			switch (value) {
+			case 7:
+				set1_value[0] += 3;
+				break;
+			case 6:
+				set1_value[0] += 2;
+				break;
+			case 5:
+				set1_value[0] += 1;
+				break;
+			case 4:
+				set1_value[0] += 0;
+				break;
+			case 3:
+				set2_value[0] += 1;
+				break;
+			case 2:
+				set2_value[0] += 2;
+				break;
+			case 1:
+				set2_value[0] += 3;
+				break;
+			default:
+				break;
+				
+			}
+		}
+	}
+	
+	/*
+	@RequestMapping(value = "mbtiSubmit", method=RequestMethod.POST)
+	@ResponseBody
+	public String MbtiSubmit(@RequestParam Map<String, String> formData, Model mv) {
+		
+		String mbtiTest = MbtiService.updateScores(formData);
+		
+		mv.addAttribute("mbtiTest", mbtiTest);
+		
+		return mbtiTest;
+	}*/
+	
 }

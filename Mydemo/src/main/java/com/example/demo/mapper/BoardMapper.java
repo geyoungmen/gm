@@ -11,7 +11,6 @@ import com.example.demo.dto.BoardForm;
 public interface BoardMapper {
 
 	int insertBoard(BoardForm board);
-	//int insertBoard(BoardForm board, MultipartFile file);
 
 	int updateBoard(BoardForm board);
 

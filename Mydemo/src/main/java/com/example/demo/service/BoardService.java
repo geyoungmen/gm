@@ -1,10 +1,15 @@
 package com.example.demo.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.BoardForm;
 import com.example.demo.mapper.BoardMapper;
@@ -13,18 +18,23 @@ import com.example.demo.mapper.BoardMapper;
 public class BoardService {
 	@Autowired
 	public BoardMapper mapper;
+	
+	//파일업로드 디렉토리 경로설정
+	private static final String UPLOAD_DIRECTORY = "C:\\MyProgram\\image\\";
 
-	public int insertBoard(BoardForm board) throws Exception {
-	/*	//파일 저장 경로
-				String filePath = System.getProperty("user.dir") + "//src//main//resources//static//files";
-				//파일이름 중복 방지
-				UUID uuid = UUID.randomUUID();
-				//저장될 파일이름 생성 uuid + _ + 파일 기존이름
-				String fileName = uuid + "_" + file.getOriginalFilename();
+	public int insertBoard(BoardForm board, MultipartFile file) throws Exception {
+		//파일업로드
+				if (!file.isEmpty()) {
+					String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
-				File saveFile = new File(filePath, fileName);
+					//파일 저장
+					byte[] bytes = file.getBytes();
+					Path path = Paths.get(UPLOAD_DIRECTORY + fileName);
+					Files.write(path, bytes);
 
-				file.transferTo(saveFile);*/
+					board.setFileName(fileName);
+					board.setFileUrl(UPLOAD_DIRECTORY);
+				}
 
 		return mapper.insertBoard(board);
 	}

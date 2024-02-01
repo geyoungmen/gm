@@ -44,28 +44,38 @@ public class BoardController {
 	//@RequestMapping(value = "/writeBoard", method=RequestMethod.POST)
 	@PostMapping("/writeBoard")
 	@ResponseBody
-	public String addWriteBoard(@RequestPart("brdSub") String brdSub,
-			@RequestPart("brdContent") String brdContent,
-			@RequestPart("file") MultipartFile file
+	public int addWriteBoard(@RequestParam Map<String, String> Params,
+			@RequestParam("file") MultipartFile imgfile
 							) throws Exception {
 
-		System.out.println("file : " + file);
-		//System.out.println("ParamsParamsParams : " + Params);
+		System.out.println("imgfile : " + imgfile);
+		//System.out.println("brdSub : " + brdSub);
+		//System.out.println("brdContent : " + brdContent);
+		System.out.println("ParamsParamsParams : " + Params);
 
 		BoardForm boardForm = new BoardForm();
-		boardForm.setBrdSub(brdSub);
-		boardForm.setBrdContent(brdContent);
-		boardForm.setFileOriName(file.getOriginalFilename());
-
-		System.out.println("filefilefile : " + file.getOriginalFilename());
-
-		/* @RequestParam Map<String, String> Params
 		boardForm.setBrdSub(Params.get("brdSub"));
-		boardForm.setBrdContent(Params.get("brdContent"));*/
+		boardForm.setBrdContent(Params.get("brdContent"));
+		
+		boardForm.setFileOriName(imgfile.getOriginalFilename());
 
-		boardservice.insertBoard(boardForm);
+		System.out.println("filefilefile : " + imgfile.getOriginalFilename());
 
-		return "content/board";
+		/* 	@RequestParam Map<String, String> Params,
+		  	@RequestPart("brdSub") String brdSub,
+			@RequestPart("brdContent") String brdContent,
+		boardForm.setBrdSub(Params.get("brdSub"));
+		boardForm.setBrdContent(Params.get("brdContent"));
+		boardForm.setBrdSub(brdSub);
+		boardForm.setBrdContent(brdContent);*/
+
+		int k = boardservice.insertBoard(boardForm, imgfile);
+		//int k = boardservice.insertBoard(boardForm);
+		
+		
+	//		return "/board";
+			return k;
+		
 	}
 
 	//@RequestMapping(value = "/detailBoard", method=RequestMethod.GET)
