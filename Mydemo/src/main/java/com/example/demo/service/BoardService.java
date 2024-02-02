@@ -1,6 +1,4 @@
 package com.example.demo.service;
-
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,7 +19,8 @@ public class BoardService {
 	
 	//파일업로드 디렉토리 경로설정
 	private static final String UPLOAD_DIRECTORY = "C:\\MyProgram\\image\\";
-
+	//private static final String IMAGE_DIRECTORY = "C:\\MyProgram\\image\\";
+	
 	public int insertBoard(BoardForm board, MultipartFile file) throws Exception {
 		//파일업로드
 				if (!file.isEmpty()) {
@@ -33,7 +32,7 @@ public class BoardService {
 					Files.write(path, bytes);
 
 					board.setFileName(fileName);
-					board.setFileUrl(UPLOAD_DIRECTORY);
+					board.setFileUrl(UPLOAD_DIRECTORY + fileName);
 				}
 
 		return mapper.insertBoard(board);
@@ -54,5 +53,21 @@ public class BoardService {
 	public Map<String, Object> detailBoard(BoardForm board){
 		return mapper.detailBoard(board);
 	}
-
+	/*
+	public Resource loadImageAsResource(String filename) throws MalformedURLException {
+        Optional<BoardForm> imageEntityOptional = mapper.findByFilename(filename);
+        if (imageEntityOptional.isPresent()) {
+            String filepath = imageEntityOptional.get().getFileUrl();
+            Resource resource = new UrlResource("file:" + filepath);
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
+        } else {
+            throw new RuntimeException("Image not found!");
+        }
+    }
+	*/
+	
 }

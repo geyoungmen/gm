@@ -35,10 +35,13 @@
     
     <select id="detailBoard" resultType="Map">
     	select 
-			brd_no 		AS brdNo,
-			brd_sub 	AS brdSub,
-			brd_content AS brdContent,
-			brd_date 	AS brdDate
+			brd_no 			AS brdNo,
+			brd_sub 		AS brdSub,
+			brd_content 	AS brdContent,
+			brd_date 		AS brdDate,
+			file_ori_name 	AS fileOriName,
+			file_url		AS fileUrl,
+			file_name		AS fileName
 		 from board_table
 		 where 	brd_no = #{brdNo}
     </select>

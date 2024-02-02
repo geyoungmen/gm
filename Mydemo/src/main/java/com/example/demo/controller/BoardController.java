@@ -1,16 +1,19 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,9 +31,8 @@ public class BoardController {
 	public String boardList(HttpServletRequest request, Model mv) {
 
 		List<BoardForm> boardList = boardservice.getBoard();
-
 		mv.addAttribute("boardList", boardList);
-
+		
 		return "content/board";
 	}
 
@@ -40,26 +42,22 @@ public class BoardController {
 		return "content/writeBoard";
 	}
 
-	//ajax를 활용해서 data를 개별로 받아오기
 	//@RequestMapping(value = "/writeBoard", method=RequestMethod.POST)
 	@PostMapping("/writeBoard")
-	@ResponseBody
-	public int addWriteBoard(@RequestParam Map<String, String> Params,
+	//@ResponseBody
+	public String addWriteBoard(@RequestParam Map<String, String> Params,
+	//public String addWriteBoard(@RequestParam Map<String, String> Params,
 			@RequestParam("file") MultipartFile imgfile
 							) throws Exception {
 
-		System.out.println("imgfile : " + imgfile);
 		//System.out.println("brdSub : " + brdSub);
 		//System.out.println("brdContent : " + brdContent);
-		System.out.println("ParamsParamsParams : " + Params);
 
 		BoardForm boardForm = new BoardForm();
 		boardForm.setBrdSub(Params.get("brdSub"));
 		boardForm.setBrdContent(Params.get("brdContent"));
 		
 		boardForm.setFileOriName(imgfile.getOriginalFilename());
-
-		System.out.println("filefilefile : " + imgfile.getOriginalFilename());
 
 		/* 	@RequestParam Map<String, String> Params,
 		  	@RequestPart("brdSub") String brdSub,
@@ -70,12 +68,12 @@ public class BoardController {
 		boardForm.setBrdContent(brdContent);*/
 
 		int k = boardservice.insertBoard(boardForm, imgfile);
-		//int k = boardservice.insertBoard(boardForm);
+		//boardservice.insertBoard(boardForm, imgfile);
 		
 		
-	//		return "/board";
-			return k;
-		
+			//return "content/board";
+			//return k;
+			return "redirect:/board";
 	}
 
 	//@RequestMapping(value = "/detailBoard", method=RequestMethod.GET)
@@ -87,7 +85,6 @@ public class BoardController {
 		boardForm.setBrdNo(Integer.parseInt(Params.get("No")));
 
 		Map<String, Object> detailBoard = boardservice.detailBoard(boardForm);
-
 		mv.addAttribute("detailboard", detailBoard);
 
 		return "content/detailBoard";
@@ -153,5 +150,43 @@ public class BoardController {
 
 		  return "content/kakaoMap";
 	  }
-
+	  
+	  /*
+	  //이미지 불러오기
+	  @GetMapping("/image/{filename}")
+	    @ResponseBody
+	    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+	        try {
+	            Resource file = boardservice.loadImageAsResource(filename);
+	            return ResponseEntity.ok()
+	                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
+	                    .body(file);
+	        } catch (Exception e) {
+	            // Handle exceptions (e.g., file not found)
+	            return ResponseEntity.notFound().build();
+	        }
+	    }
+	  
+	  
+	  	@GetMapping("display")
+		@ResponseBody
+		public ResponseEntity<byte[]> getThumbnaileFile(@RequestParam("fileName") String fileName) {
+			File file = new File(fileName);
+			ResponseEntity<byte[]> res = null;
+			HttpHeaders headers =new HttpHeaders();
+			try {
+				headers.add("Content-Type", Files.probeContentType(file.toPath()));
+				res = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file), headers ,HttpStatus.OK);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return res;
+		}*/
+	  
+	  @GetMapping("/images/{fileOriName}")
+		public ResponseEntity<Resource> downloadExecute(@PathVariable("fileOriName") String fileOriName) throws IOException {
+		  System.out.println("fileOriName : " + fileOriName);
+		  
+		  return null;
+	  }
 }

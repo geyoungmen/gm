@@ -7,10 +7,14 @@
 </head>
 <body>
 <form id="detailBoard">
+[[${detailboard}]]
 <div>Title</div>
 <div th:text="${detailboard.brdSub}"></div>
 <div>Content</div>
 <div th:text="${detailboard.brdContent}"></div>
+
+<img th:src="@{'images:' + ${detailboard.fileOriName}}" alt="이미지" />
+<!-- <img th:src="@{/image/{filename}(filename=${detailboard.fileName})}" alt="이미지" /> -->
 
 <input type="hidden" th:value="${detailboard.brdSub}" id="brdSub">
 <input type="hidden" th:value="${detailboard.brdContent}" id="brdContent">

@@ -378,46 +378,46 @@ public class MbtiController {
 	    }
 
 
-	    int totaEI = E_EI + E_IE;
-	    int totaIE = I_EI + I_IE;
+	    int totalEI = E_EI + E_IE;
+	    int totalIE = I_EI + I_IE;
 
-	    int totaNS = N_NS + N_SN;
-	    int totaSN = S_NS + S_SN;
+	    int totalNS = N_NS + N_SN;
+	    int totalSN = S_NS + S_SN;
 
-	    int totaFT = F_FT + F_TF;
-	    int totaTF = T_FT + T_TF;
+	    int totalFT = F_FT + F_TF;
+	    int totalTF = T_FT + T_TF;
 
-	    int totaJP = J_JP + J_PJ;
-	    int totaPJ = P_JP + P_PJ;
+	    int totalJP = J_JP + J_PJ;
+	    int totalPJ = P_JP + P_PJ;
 
 
 	    String resultEI;
-	    if (totaEI == totaIE) {
+	    if (totalEI == totalIE) {
 	        resultEI = "E";
 	    } else {
-	        resultEI = (totaEI >= totaIE) ? "E" : "I";
-	        //resultEI = totaEI.compareTo(totaIE);
+	        resultEI = (totalEI >= totalIE) ? "E" : "I";
+	        //resultEI = totalEI.compareTo(totalIE);
 	    }
 
 	    String resultNS;
-	    if (totaNS == totaSN) {
+	    if (totalNS == totalSN) {
 	    	resultNS = "N";
 	    } else {
-	    	resultNS = (totaNS >= totaSN) ? "N" : "S";
+	    	resultNS = (totalNS >= totalSN) ? "N" : "S";
 	    }
 
 	    String resultFT;
-	    if (totaFT == totaTF) {
+	    if (totalFT == totalTF) {
 	    	resultFT = "F";
 	    } else {
-	    	resultFT = (totaFT >= totaTF) ? "F" : "T";
+	    	resultFT = (totalFT >= totalTF) ? "F" : "T";
 	    }
 
 	    String resultJP;
-	    if (totaJP == totaPJ) {
+	    if (totalJP == totalPJ) {
 	    	resultJP = "J";
 	    } else {
-	    	resultJP = (totaJP >= totaPJ) ? "J" : "P";
+	    	resultJP = (totalJP >= totalPJ) ? "J" : "P";
 	    }
 	    String resultMbti = resultEI + resultNS + resultFT + resultJP;
 	    return resultMbti;
@@ -467,54 +467,54 @@ public class MbtiController {
 			mbtiValue(formData, paramNamePJ, P_PJ, J_PJ);
 			
 		}
-		int totaEI = E_EI[0] + E_IE[0];
-		int totaIE = I_EI[0] + I_IE[0];
+		int totalEI = E_EI[0] + E_IE[0];
+		int totalIE = I_EI[0] + I_IE[0];
 		
-		int totaNS = N_NS[0] + N_SN[0];
-		int totaSN = S_NS[0] + S_SN[0];
+		int totalNS = N_NS[0] + N_SN[0];
+		int totalSN = S_NS[0] + S_SN[0];
 		
-		int totaFT = F_FT[0] + F_TF[0];
-		int totaTF = T_FT[0] + T_TF[0];
+		int totalFT = F_FT[0] + F_TF[0];
+		int totalTF = T_FT[0] + T_TF[0];
 		
-		int totaJP = J_JP[0] + J_PJ[0];
-		int totaPJ = P_JP[0] + P_PJ[0];
+		int totalJP = J_JP[0] + J_PJ[0];
+		int totalPJ = P_JP[0] + P_PJ[0];
 		
-		String resultEI = (Integer.valueOf(totaEI)).compareTo(Integer.valueOf(totaIE)) >= 0 ? "E" : "I";
+		String resultEI = (Integer.valueOf(totalEI)).compareTo(Integer.valueOf(totalIE)) >= 0 ? "E" : "I";
 		
 		/*
 		String resultEI;
-		if (totaEI == totaIE) {
+		if (totalEI == totalIE) {
 			resultEI = "E";
 		} else {
-			resultEI = (totaEI >= totaIE) ? "E" : "I";
-			//resultEI = totaEI.compareTo(totaIE);
+			resultEI = (totalEI >= totalIE) ? "E" : "I";
+			//resultEI = totalEI.compareTo(totalIE);
 		}*/
 		
-		String resultNS = (Integer.valueOf(totaNS)).compareTo(Integer.valueOf(totaSN)) >= 0 ? "N" : "S";
+		String resultNS = (Integer.valueOf(totalNS)).compareTo(Integer.valueOf(totalSN)) >= 0 ? "N" : "S";
 		/*
 		String resultNS;
-		if (totaNS == totaSN) {
+		if (totalNS == totalSN) {
 			resultNS = "N";
 		} else {
-			resultNS = (totaNS >= totaSN) ? "N" : "S";
+			resultNS = (totalNS >= totalSN) ? "N" : "S";
 		}
 		*/
-		String resultFT = (Integer.valueOf(totaFT)).compareTo(Integer.valueOf(totaTF)) >= 0 ? "F" : "T";
+		String resultFT = (Integer.valueOf(totalFT)).compareTo(Integer.valueOf(totalTF)) >= 0 ? "F" : "T";
 		/*
 		String resultFT;
-		if (totaFT == totaTF) {
+		if (totalFT == totalTF) {
 			resultFT = "F";
 		} else {
-			resultFT = (totaFT >= totaTF) ? "F" : "T";
+			resultFT = (totalFT >= totalTF) ? "F" : "T";
 		}
 		*/
-		String resultJP = (Integer.valueOf(totaJP)).compareTo(Integer.valueOf(totaPJ)) >= 0 ? "J" : "P";
+		String resultJP = (Integer.valueOf(totalJP)).compareTo(Integer.valueOf(totalPJ)) >= 0 ? "J" : "P";
 		/*
 		String resultJP;
-		if (totaJP == totaPJ) {
+		if (totalJP == totalPJ) {
 			resultJP = "J";
 		} else {
-			resultJP = (totaJP >= totaPJ) ? "J" : "P";
+			resultJP = (totalJP >= totalPJ) ? "J" : "P";
 		}
 		*/
 		String resultMbti = resultEI + resultNS + resultFT + resultJP;

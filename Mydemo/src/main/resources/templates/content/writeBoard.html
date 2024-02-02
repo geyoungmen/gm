@@ -24,43 +24,20 @@
 <input type="file" name="file" id="file" multiple="multiple"/>
 
 <!-- <button type="button" id="write-btn">글 작성하기</button> -->
-<button type="submit" id="write-btn">글 작성하기</button>
+<button type="submit" id="write-btn" onClick="location.href='/board'">글 작성하기</button>
 <button type="button" onClick="location.href='/board'" >목록으로</button>
 
 </form>
 <script type="text/javascript">
-/*
+
 $(document).ready(function() {
     $("#write-btn").click(function() {
-    	var brdSub = $("#sub").val();
-    	var brdContent = $("#content").val();
-    	//var file = $("#file").val();
-    	$.ajax({
-            type: "POST",
-            url: "/writeBoard",
-            //enctype: 'multipart/form-data',
-            //contentType: false, 
-            //processData: false,
-            data: {
-                brdSub: brdSub,
-                brdContent: brdContent
-                //file : file
-            },
-            success: function(data) {
-            	if(data <= 0) {
-            		alert("글 작성 실패 ");
-            	} else {
-            		alert("글 작성 성공");
-            		window.location.href = "/board";
-            	}
-            },
-            error: function() {
-                alert("작성 실패");
-            }
-        });
+        // 여기에서 서버로의 요청 및 데이터 전송 로직을 추가
+        alert("글 작성 성공");
+        window.location.href = "./board";
     });
 });
-*/
+
 </script>
 </body>
 </html>
