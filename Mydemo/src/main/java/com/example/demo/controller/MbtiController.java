@@ -480,43 +480,10 @@ public class MbtiController {
 		int totalPJ = P_JP[0] + P_PJ[0];
 		
 		String resultEI = (Integer.valueOf(totalEI)).compareTo(Integer.valueOf(totalIE)) >= 0 ? "E" : "I";
-		
-		/*
-		String resultEI;
-		if (totalEI == totalIE) {
-			resultEI = "E";
-		} else {
-			resultEI = (totalEI >= totalIE) ? "E" : "I";
-			//resultEI = totalEI.compareTo(totalIE);
-		}*/
-		
 		String resultNS = (Integer.valueOf(totalNS)).compareTo(Integer.valueOf(totalSN)) >= 0 ? "N" : "S";
-		/*
-		String resultNS;
-		if (totalNS == totalSN) {
-			resultNS = "N";
-		} else {
-			resultNS = (totalNS >= totalSN) ? "N" : "S";
-		}
-		*/
 		String resultFT = (Integer.valueOf(totalFT)).compareTo(Integer.valueOf(totalTF)) >= 0 ? "F" : "T";
-		/*
-		String resultFT;
-		if (totalFT == totalTF) {
-			resultFT = "F";
-		} else {
-			resultFT = (totalFT >= totalTF) ? "F" : "T";
-		}
-		*/
 		String resultJP = (Integer.valueOf(totalJP)).compareTo(Integer.valueOf(totalPJ)) >= 0 ? "J" : "P";
-		/*
-		String resultJP;
-		if (totalJP == totalPJ) {
-			resultJP = "J";
-		} else {
-			resultJP = (totalJP >= totalPJ) ? "J" : "P";
-		}
-		*/
+		
 		String resultMbti = resultEI + resultNS + resultFT + resultJP;
 		return resultMbti;
 	}
@@ -553,17 +520,5 @@ public class MbtiController {
 			}
 		}
 	}
-	
-	/*
-	@RequestMapping(value = "mbtiSubmit", method=RequestMethod.POST)
-	@ResponseBody
-	public String MbtiSubmit(@RequestParam Map<String, String> formData, Model mv) {
-		
-		String mbtiTest = MbtiService.updateScores(formData);
-		
-		mv.addAttribute("mbtiTest", mbtiTest);
-		
-		return mbtiTest;
-	}*/
 	
 }

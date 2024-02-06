@@ -1,11 +1,15 @@
 package com.example.demo.controller;
 
-import java.io.IOException;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,8 +71,8 @@ public class BoardController {
 		boardForm.setBrdSub(brdSub);
 		boardForm.setBrdContent(brdContent);*/
 
-		int k = boardservice.insertBoard(boardForm, imgfile);
-		//boardservice.insertBoard(boardForm, imgfile);
+		boardservice.insertBoard(boardForm, imgfile);
+		//int k = boardservice.insertBoard(boardForm, imgfile);
 		
 		
 			//return "content/board";
@@ -85,9 +89,12 @@ public class BoardController {
 		boardForm.setBrdNo(Integer.parseInt(Params.get("No")));
 
 		Map<String, Object> detailBoard = boardservice.detailBoard(boardForm);
+		
 		mv.addAttribute("detailboard", detailBoard);
-
-		return "content/detailBoard";
+		System.out.println("detailBoard : " + detailBoard);
+		
+			return "content/detailBoard";
+		
 	}
 
 	//@RequestMapping(value = "/deleteBoard", method=RequestMethod.POST)
@@ -152,7 +159,6 @@ public class BoardController {
 	  }
 	  
 	  /*
-	  //이미지 불러오기
 	  @GetMapping("/image/{filename}")
 	    @ResponseBody
 	    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
@@ -166,8 +172,6 @@ public class BoardController {
 	            return ResponseEntity.notFound().build();
 	        }
 	    }
-	  
-	  
 	  	@GetMapping("display")
 		@ResponseBody
 		public ResponseEntity<byte[]> getThumbnaileFile(@RequestParam("fileName") String fileName) {
@@ -181,12 +185,30 @@ public class BoardController {
 				e.printStackTrace();
 			}
 			return res;
-		}*/
-	  
-	  @GetMapping("/images/{fileOriName}")
-		public ResponseEntity<Resource> downloadExecute(@PathVariable("fileOriName") String fileOriName) throws IOException {
-		  System.out.println("fileOriName : " + fileOriName);
-		  
-		  return null;
+		}
+	  @GetMapping("/image/{fileName}")
+	  public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) throws IOException {
+	      // 실제 이미지 파일의 경로를 찾아서 Resource를 생성
+	      Resource resource = new FileSystemResource("C:/MyProgram/image/" + fileName);
+
+	      // Resource를 ResponseEntity로 감싸서 반환
+	      return ResponseEntity.ok()
+	              .contentType(MediaType.IMAGE_JPEG) // 이미지 타입에 따라 적절한 MediaType 사용
+	              .body(resource);
+	  }
+	  */
+	  //이미지 불러오기
+	  @GetMapping("/image/{fileName}")
+	  public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) throws MalformedURLException {
+	      System.out.println("fileName: " + fileName);
+	      
+	      // 파일 시스템 경로로부터 리소스를 생성
+	      File file = new File("C:\\MyProgram\\image\\" + fileName);
+	      Path path = file.toPath();
+	      Resource resource = new FileSystemResource(path.toFile());
+	      //이미지타입 PNG로 고정
+	      return ResponseEntity.ok()
+	              .contentType(MediaType.IMAGE_PNG)
+	              .body(resource);
 	  }
 }

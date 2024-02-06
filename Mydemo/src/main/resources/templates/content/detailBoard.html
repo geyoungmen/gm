@@ -12,9 +12,11 @@
 <div th:text="${detailboard.brdSub}"></div>
 <div>Content</div>
 <div th:text="${detailboard.brdContent}"></div>
+<!-- 게시글에 이미지가 없을 시  -->
+<div th:if="${not #strings.isEmpty(detailboard.fileOriName)}">
+<img th:src="@{/image/{fileName}(fileName=${detailboard.fileName})}" alt="이미지" width="500" height="500"/>
+</div>
 
-<img th:src="@{'images:' + ${detailboard.fileOriName}}" alt="이미지" />
-<!-- <img th:src="@{/image/{filename}(filename=${detailboard.fileName})}" alt="이미지" /> -->
 
 <input type="hidden" th:value="${detailboard.brdSub}" id="brdSub">
 <input type="hidden" th:value="${detailboard.brdContent}" id="brdContent">
