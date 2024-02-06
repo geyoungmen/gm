@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,16 +47,9 @@ public class BoardController {
 		return "content/writeBoard";
 	}
 
-	//@RequestMapping(value = "/writeBoard", method=RequestMethod.POST)
 	@PostMapping("/writeBoard")
-	//@ResponseBody
 	public String addWriteBoard(@RequestParam Map<String, String> Params,
-	//public String addWriteBoard(@RequestParam Map<String, String> Params,
-			@RequestParam("file") MultipartFile imgfile
-							) throws Exception {
-
-		//System.out.println("brdSub : " + brdSub);
-		//System.out.println("brdContent : " + brdContent);
+			@RequestParam("file") MultipartFile imgfile) throws Exception { 
 
 		BoardForm boardForm = new BoardForm();
 		boardForm.setBrdSub(Params.get("brdSub"));
@@ -63,23 +57,34 @@ public class BoardController {
 		
 		boardForm.setFileOriName(imgfile.getOriginalFilename());
 
-		/* 	@RequestParam Map<String, String> Params,
-		  	@RequestPart("brdSub") String brdSub,
-			@RequestPart("brdContent") String brdContent,
+		boardservice.insertBoard(boardForm, imgfile);
+		
+			return "redirect:/board";
+	} 
+	/*
+	@PostMapping("/writeBoard")
+	public String addWriteBoard(@RequestParam Map<String, String> Params,
+			@RequestParam("file") List<MultipartFile> imgfiles
+			) throws Exception {
+		
+		BoardForm boardForm = new BoardForm();
 		boardForm.setBrdSub(Params.get("brdSub"));
 		boardForm.setBrdContent(Params.get("brdContent"));
-		boardForm.setBrdSub(brdSub);
-		boardForm.setBrdContent(brdContent);*/
 
-		boardservice.insertBoard(boardForm, imgfile);
-		//int k = boardservice.insertBoard(boardForm, imgfile);
+		List<String> fileOriNames = new ArrayList<>();
+		System.out.println("imgfiles: " + imgfiles);
+	    // 이미지 파일들을 하나씩 처리
+	    for (MultipartFile imgFile : imgfiles) {
+	        fileOriNames.add(imgFile.getOriginalFilename());
+	    }
+
+	    boardForm.setFileOriName(fileOriNames);
+	    System.out.println("fileOriNames: " + fileOriNames);
+		boardservice.insertBoard(boardForm, imgfiles);
 		
-		
-			//return "content/board";
-			//return k;
-			return "redirect:/board";
+		return "redirect:/board";
 	}
-
+*/
 	//@RequestMapping(value = "/detailBoard", method=RequestMethod.GET)
 	@GetMapping("/detailBoard")
 	public String detailBoard(@RequestParam Map<String, String> Params, Model mv) {
