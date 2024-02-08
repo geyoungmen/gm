@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--	mbtiNumber	int
+		mbtiComment	varchar(500)
+		mbtiType	varchar(20)  
+
+1	역사를 깊게 탐구해보고 싶다	EI
+2	우울할 때 친구들을 만나 우울감을 떨치는 편이다	IE
+3	여행할 때 적극적으로 계획을 세우는 편이다	EI
+4	본인이 세운 계획이 틀어지면 기분이 안좋아진다	IE
+5	테스트문제5	EI
+6	NS문제	NS
+7	NS문제2	NS
+8	SN문제	SN
+9	SN문제2	SN
+10	SN문제3	SN
+11	FT문제	FT
+12	TF문제	TF
+13	TF문제2	TF
+14	TF문제3	TF
+15	FT문제2	FT
+16	PJ문제	PJ
+17	JP문제	JP
+18	PJ문제2	PJ
+19	JP문제2	JP
+20	PJ문제3	PJ
+-->
 <mapper namespace="com.example.demo.mapper.MbtiMapper">
 	<select id="getMbtiComment" resultType="MbtiForm">
 		select *

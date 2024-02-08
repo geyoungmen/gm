@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.BoardMapper">
-
+<!--  	brd_no		int		PRI		auto_increment
+		brd_sub		varchar(50)				
+		brd_content	varchar(4000)				
+		brd_date	datetime		-->		
 	<insert id="insertBoard" parameterType="BoardForm" useGeneratedKeys="true" keyProperty="brdNo">
         INSERT INTO board_table (brd_sub, brd_content, brd_date)
         VALUES (#{brdSub}, #{brdContent}, CURRENT_TIMESTAMP)

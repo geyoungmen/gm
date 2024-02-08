@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.FileMapper">
     
+    <!--	file_id			int				
+			file_ori_name	varchar(255)				
+			file_url		varchar(255)				
+			file_name		varchar(255)				
+      -->
+    
 	<insert id="insertFile" parameterType="Map">
         INSERT INTO file_table (file_id, file_ori_name, file_url, file_name)
         VALUES (#{fileId}, #{fileOriName}, #{fileUrl}, #{fileName})
