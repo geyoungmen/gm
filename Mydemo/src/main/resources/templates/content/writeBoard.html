@@ -32,10 +32,26 @@
 
 $(document).ready(function() {
     $("#write-btn").click(function() {
-        // 여기에서 서버로의 요청 및 데이터 전송 로직을 추가
-        alert("글 작성 성공");
-        window.location.href = "./board";
-    });
+    	var data = { 
+                brdSub: $("#sub").val(),
+                brdContent: $("#content").val(),
+            };
+    	$.ajax({
+            type: "POST",
+            url: "/writeBoard",
+            contentType: "application/json", // 요청 데이터의 타입을 JSON으로 설정
+            data: JSON.stringify(dataToSend), // 데이터를 JSON 문자열로 변환
+            success: function(data) {
+            	if (data == 1) {
+            		alert("글 작성 성공");
+                	window.location.href = "./board";
+            	} else if (data == 0){
+            		alert("작성 실패");
+            	},
+            		error: function() {
+                         alert("작성 실패");
+                     }
+	    });
 });
 
 </script>
