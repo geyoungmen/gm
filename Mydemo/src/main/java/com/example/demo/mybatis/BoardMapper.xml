@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.BoardMapper">
 
-	<insert id="insertBoard" parameterType="com.example.demo.dto.BoardForm">
-        INSERT INTO board_table (brd_sub, brd_content, brd_date, file_ori_name, file_url, file_name)
-        VALUES (#{brdSub}, #{brdContent}, CURRENT_TIMESTAMP, #{fileOriName}, #{fileUrl}, #{fileName})
+	<insert id="insertBoard" parameterType="BoardForm" useGeneratedKeys="true" keyProperty="brdNo">
+        INSERT INTO board_table (brd_sub, brd_content, brd_date)
+        VALUES (#{brdSub}, #{brdContent}, CURRENT_TIMESTAMP)
     </insert>
     
     <select id="getBoard" resultType="BoardForm">
@@ -12,10 +12,7 @@
 			brd_no 			AS brdNo,
 			brd_sub 		AS brdSub,
 			brd_content 	AS brdContent,
-			brd_date 		AS brdDate,
-			file_ori_name 	AS fileOriName,
-			file_url		AS fileUrl,
-			file_name		AS fileName
+			brd_date 		AS brdDate
 		 from board_table
 	</select>
 	
@@ -38,10 +35,7 @@
 			brd_no 			AS brdNo,
 			brd_sub 		AS brdSub,
 			brd_content 	AS brdContent,
-			brd_date 		AS brdDate,
-			file_ori_name 	AS fileOriName,
-			file_url		AS fileUrl,
-			file_name		AS fileName
+			brd_date 		AS brdDate
 		 from board_table
 		 where 	brd_no = #{brdNo}
     </select>

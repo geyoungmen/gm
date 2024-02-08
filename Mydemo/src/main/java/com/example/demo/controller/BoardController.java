@@ -2,10 +2,12 @@ package com.example.demo.controller;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -23,7 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.BoardForm;
+import com.example.demo.dto.FileForm;
 import com.example.demo.service.BoardService;
+import com.example.demo.service.FileService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -31,6 +35,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class BoardController {
 	@Autowired
 	BoardService boardservice;
+	@Autowired
+	FileService fileservice;
 
 	@GetMapping("/board")
 	public String boardList(HttpServletRequest request, Model mv) {
@@ -52,12 +58,19 @@ public class BoardController {
 			@RequestParam("file") MultipartFile imgfile) throws Exception { 
 
 		BoardForm boardForm = new BoardForm();
+		
 		boardForm.setBrdSub(Params.get("brdSub"));
 		boardForm.setBrdContent(Params.get("brdContent"));
 		
-		boardForm.setFileOriName(imgfile.getOriginalFilename());
-
-		boardservice.insertBoard(boardForm, imgfile);
+		boardservice.insertBoard(boardForm);
+		
+		if (!imgfile.isEmpty()) {
+			FileForm fileForm = new FileForm();
+			fileForm.setFileOriName(imgfile.getOriginalFilename());
+			fileForm.setFileId(boardForm.getBrdNo());
+			
+			fileservice.insertFile(fileForm, imgfile);
+		}
 		
 			return "redirect:/board";
 	} 
@@ -89,14 +102,23 @@ public class BoardController {
 	@GetMapping("/detailBoard")
 	public String detailBoard(@RequestParam Map<String, String> Params, Model mv) {
 		//System.out.println("Params : " + Params);
-
+		
+		int No = Integer.parseInt(Params.get("No"));
+		
 		BoardForm boardForm = new BoardForm();
-		boardForm.setBrdNo(Integer.parseInt(Params.get("No")));
-
+		boardForm.setBrdNo(No);
+		
+		FileForm fileForm = new FileForm();
+		fileForm.setFileId(No);
+		
 		Map<String, Object> detailBoard = boardservice.detailBoard(boardForm);
+		Map<String, Object> fileBoard = fileservice.fileList(fileForm); 
 		
 		mv.addAttribute("detailboard", detailBoard);
+		mv.addAttribute("fileBoard", fileBoard);
+		
 		System.out.println("detailBoard : " + detailBoard);
+		System.out.println("fileBoard : " + fileBoard);
 		
 			return "content/detailBoard";
 		
@@ -202,12 +224,12 @@ public class BoardController {
 	              .body(resource);
 	  }
 	  */
+	  /*
 	  //이미지 불러오기
 	  @GetMapping("/image/{fileName}")
 	  public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) throws MalformedURLException {
 	      System.out.println("fileName: " + fileName);
 	      
-	      // 파일 시스템 경로로부터 리소스를 생성
 	      File file = new File("C:\\MyProgram\\image\\" + fileName);
 	      Path path = file.toPath();
 	      Resource resource = new FileSystemResource(path.toFile());
@@ -216,4 +238,36 @@ public class BoardController {
 	              .contentType(MediaType.IMAGE_PNG)
 	              .body(resource);
 	  }
+	  */
+	  @GetMapping("/image/{fileName}")
+	  public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) throws MalformedURLException {
+	      
+	      File file = new File("C:\\MyProgram\\image\\" + fileName);
+	      Path path = file.toPath();
+	      Resource resource = new FileSystemResource(path.toFile());
+	      
+	      // 파일 이름에서 확장자 추출
+	      String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+	      
+	      MediaType mediaType;
+	      switch (fileExtension) {
+	          case "png":
+	              mediaType = MediaType.IMAGE_PNG;
+	              break;
+	          case "jpg":
+	          case "jpeg":
+	              mediaType = MediaType.IMAGE_JPEG;
+	              break;
+	          case "gif":
+	              mediaType = MediaType.IMAGE_GIF;
+	              break;
+	          default:
+	              mediaType = MediaType.APPLICATION_OCTET_STREAM;
+	              break;
+	      }
+	      return ResponseEntity.ok()
+	              .contentType(mediaType)
+	              .body(resource);
+	  }
+	  
 }

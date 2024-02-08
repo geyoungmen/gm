@@ -7,15 +7,16 @@
 </head>
 <body>
 <form id="detailBoard">
-[[${detailboard}]]
-<div>Title</div>
+<!-- [[${detailboard}]] -->
+<div>제목</div>
 <div th:text="${detailboard.brdSub}"></div>
-<div>Content</div>
+<div>내용</div>
 <div th:text="${detailboard.brdContent}"></div>
 <!-- 게시글에 이미지가 없을 시  -->
-<div th:if="${not #strings.isEmpty(detailboard.fileOriName)}">
-<img th:src="@{/image/{fileName}(fileName=${detailboard.fileName})}" alt="이미지" width="500" height="500"/>
-</div>
+<div th:if="${not #strings.isEmpty(fileBoard.fileOriName)}">
+<img th:src="@{/image/{fileName}(fileName=${fileBoard.fileName})}" alt="이미지" width="500" height="500"/>
+<div th:text="${fileBoard.fileOriName}"></div>
+</div> 
 
 
 <input type="hidden" th:value="${detailboard.brdSub}" id="brdSub">
