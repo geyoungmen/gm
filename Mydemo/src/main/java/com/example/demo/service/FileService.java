@@ -2,6 +2,7 @@ package com.example.demo.service;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.dto.BoardForm;
 import com.example.demo.dto.FileForm;
 import com.example.demo.mapper.FileMapper;
 
@@ -65,7 +65,8 @@ public class FileService {
     return mapper.insertBoard(board);
 }
 */	
-	public Map<String, Object> fileList(FileForm fileForm){
+	public List<Map<String, Object>> fileList(FileForm fileForm){
+	//public Map<String, Object> fileList(FileForm fileForm){
 		return fileMapper.fileList(fileForm);
 	}
 	

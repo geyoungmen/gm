@@ -7,12 +7,19 @@
 			file_url		varchar(255)				
 			file_name		varchar(255)				
       -->
-    
+    <!-- <resultMap id="fileResultMap" type="java.util.Map">
+    <id property="fileId" column="file_id" />
+    <result property="fileOriName" column="file_ori_name" />
+    <result property="fileUrl" column="file_url" />
+    <result property="fileName" column="file_name" />
+	</resultMap> -->
+
 	<insert id="insertFile" parameterType="Map">
         INSERT INTO file_table (file_id, file_ori_name, file_url, file_name)
         VALUES (#{fileId}, #{fileOriName}, #{fileUrl}, #{fileName})
     </insert>
     
+    <!-- <select id="fileList" resultMap="fileResultMap"> -->
     <select id="fileList" resultType="Map">
     	select 
 			file_id 		AS fileId,

@@ -11,47 +11,54 @@
 <form id="writeBoard" enctype="multipart/form-data" action="/writeBoard" method="post">
 <!-- <form id="writeBoard"> -->
 
-<div>제목</div>
+<h2>제목</h2>
 <div>
 <input name="brdSub" id="sub" type="text">
 </div>
 
-<div>내용</div>
+<h2>내용</h2>
 <div>
 <textarea name="brdContent" id="content"></textarea>
 </div>
-<DIV>
+
+<div>
 <input type="file" name="file" id="file" multiple/>
-</DIV>
-<!-- <button type="button" id="write-btn">글 작성하기</button> -->
-<button type="submit" id="write-btn" onClick="location.href='/board'">글 작성하기</button>
+</div>
+
+<button type="submit" id="write-btn" disabled>글 작성하기</button>
+<!-- <button type="submit" id="write-btn" onClick="location.href='/board'">글 작성하기</button> -->
 <button type="button" onClick="location.href='/board'" >목록으로</button>
 
 </form>
 <script type="text/javascript">
 
 $(document).ready(function() {
-    $("#write-btn").click(function() {
-    	var data = { 
-                brdSub: $("#sub").val(),
-                brdContent: $("#content").val(),
-            };
-    	$.ajax({
-            type: "POST",
-            url: "/writeBoard",
-            contentType: "application/json", // 요청 데이터의 타입을 JSON으로 설정
-            data: JSON.stringify(dataToSend), // 데이터를 JSON 문자열로 변환
-            success: function(data) {
-            	if (data == 1) {
-            		alert("글 작성 성공");
-                	window.location.href = "./board";
-            	} else if (data == 0){
-            		alert("작성 실패");
-            	},
-            		error: function() {
-                         alert("작성 실패");
-                     }
-	    });
+    // 제목과 내용의 입력 여부를 확인하는 함수
+    function checkInputs() {
+        var title = $("#sub").val();
+        var content = $("#content").val();
+        
+        // 제목과 내용이 모두 비어있지 않은 경우에만 버튼을 활성화
+        if (title.trim() !== '' && content.trim() !== '') {
+            $("#write-btn").prop("disabled", false);
+        } else {
+            $("#write-btn").prop("disabled", true);
+        }
+    }
+    
+    // 입력 필드의 변경 이벤트에 대한 핸들러 등록
+    $("#sub, #content").on("input", checkInputs);
+    
+    // 폼 제출 이벤트 핸들러 등록
+    $("#writeBoard").submit(function(event) {
+        // 기본 제출 동작 방지
+        event.preventDefault(); 
+
+        // 유효성 검사를 통과한 경우에만 폼 제출
+        if (!$("#write-btn").prop("disabled")) {
+            this.submit();
+        }
+    });
 });
 
 </script>

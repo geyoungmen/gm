@@ -2,12 +2,10 @@ package com.example.demo.controller;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -52,52 +50,59 @@ public class BoardController {
 
 		return "content/writeBoard";
 	}
-
+	/*
 	@PostMapping("/writeBoard")
 	public String addWriteBoard(@RequestParam Map<String, String> Params,
 			@RequestParam("file") MultipartFile imgfile) throws Exception { 
 
 		BoardForm boardForm = new BoardForm();
 		
-		boardForm.setBrdSub(Params.get("brdSub"));
-		boardForm.setBrdContent(Params.get("brdContent"));
 		
-		boardservice.insertBoard(boardForm);
+		if(!Params.get("brdSub").isEmpty() && !Params.get("brdContent").isEmpty()) {
+			boardForm.setBrdSub(Params.get("brdSub"));
+			boardForm.setBrdContent(Params.get("brdContent"));
+			
+			boardservice.insertBoard(boardForm);
+		}
 		
 		if (!imgfile.isEmpty()) {
+			System.out.println("imgfile : " +imgfile);
 			FileForm fileForm = new FileForm();
 			fileForm.setFileOriName(imgfile.getOriginalFilename());
 			fileForm.setFileId(boardForm.getBrdNo());
 			
 			fileservice.insertFile(fileForm, imgfile);
 		}
-		
 			return "redirect:/board";
-	} 
-	/*
+	}
+	*/
+	
 	@PostMapping("/writeBoard")
 	public String addWriteBoard(@RequestParam Map<String, String> Params,
-			@RequestParam("file") List<MultipartFile> imgfiles
-			) throws Exception {
-		
-		BoardForm boardForm = new BoardForm();
-		boardForm.setBrdSub(Params.get("brdSub"));
-		boardForm.setBrdContent(Params.get("brdContent"));
+	        @RequestParam("file") List<MultipartFile> imgfiles) throws Exception {
 
-		List<String> fileOriNames = new ArrayList<>();
-		System.out.println("imgfiles: " + imgfiles);
-	    // 이미지 파일들을 하나씩 처리
-	    for (MultipartFile imgFile : imgfiles) {
-	        fileOriNames.add(imgFile.getOriginalFilename());
+	    BoardForm boardForm = new BoardForm();
+	    if (!Params.get("brdSub").isEmpty() && !Params.get("brdContent").isEmpty()) {
+	        boardForm.setBrdSub(Params.get("brdSub"));
+	        boardForm.setBrdContent(Params.get("brdContent"));
+
+	        boardservice.insertBoard(boardForm);
 	    }
 
-	    boardForm.setFileOriName(fileOriNames);
-	    System.out.println("fileOriNames: " + fileOriNames);
-		boardservice.insertBoard(boardForm, imgfiles);
-		
-		return "redirect:/board";
+	    for (MultipartFile imgfile : imgfiles) {
+	        System.out.println("imgfile : " + imgfile);
+	        if (!imgfile.isEmpty()) {
+	            FileForm fileForm = new FileForm();
+	            fileForm.setFileOriName(imgfile.getOriginalFilename());
+	            fileForm.setFileId(boardForm.getBrdNo());
+
+	            fileservice.insertFile(fileForm, imgfile);
+	        }
+	    }
+
+	    return "redirect:/board";
 	}
-*/
+	
 	//@RequestMapping(value = "/detailBoard", method=RequestMethod.GET)
 	@GetMapping("/detailBoard")
 	public String detailBoard(@RequestParam Map<String, String> Params, Model mv) {
@@ -112,12 +117,16 @@ public class BoardController {
 		fileForm.setFileId(No);
 		
 		Map<String, Object> detailBoard = boardservice.detailBoard(boardForm);
-		Map<String, Object> fileBoard = fileservice.fileList(fileForm); 
+		List<Map<String, Object>> fileBoard = fileservice.fileList(fileForm); 
+		//List<Map<String, Object>> fileBoard = fileservice.fileList(fileForm);
 		
 		mv.addAttribute("detailboard", detailBoard);
-		mv.addAttribute("fileBoard", fileBoard);
+		// 파일이 없을 시
+		if(fileBoard != null) {
+			mv.addAttribute("fileBoard", fileBoard);
+		}
 		
-		System.out.println("detailBoard : " + detailBoard);
+		//System.out.println("detailBoard : " + detailBoard);
 		System.out.println("fileBoard : " + fileBoard);
 		
 			return "content/detailBoard";
@@ -185,63 +194,9 @@ public class BoardController {
 		  return "content/kakaoMap";
 	  }
 	  
-	  /*
-	  @GetMapping("/image/{filename}")
-	    @ResponseBody
-	    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-	        try {
-	            Resource file = boardservice.loadImageAsResource(filename);
-	            return ResponseEntity.ok()
-	                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"")
-	                    .body(file);
-	        } catch (Exception e) {
-	            // Handle exceptions (e.g., file not found)
-	            return ResponseEntity.notFound().build();
-	        }
-	    }
-	  	@GetMapping("display")
-		@ResponseBody
-		public ResponseEntity<byte[]> getThumbnaileFile(@RequestParam("fileName") String fileName) {
-			File file = new File(fileName);
-			ResponseEntity<byte[]> res = null;
-			HttpHeaders headers =new HttpHeaders();
-			try {
-				headers.add("Content-Type", Files.probeContentType(file.toPath()));
-				res = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file), headers ,HttpStatus.OK);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return res;
-		}
-	  @GetMapping("/image/{fileName}")
-	  public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) throws IOException {
-	      // 실제 이미지 파일의 경로를 찾아서 Resource를 생성
-	      Resource resource = new FileSystemResource("C:/MyProgram/image/" + fileName);
-
-	      // Resource를 ResponseEntity로 감싸서 반환
-	      return ResponseEntity.ok()
-	              .contentType(MediaType.IMAGE_JPEG) // 이미지 타입에 따라 적절한 MediaType 사용
-	              .body(resource);
-	  }
-	  */
-	  /*
-	  //이미지 불러오기
 	  @GetMapping("/image/{fileName}")
 	  public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) throws MalformedURLException {
-	      System.out.println("fileName: " + fileName);
-	      
-	      File file = new File("C:\\MyProgram\\image\\" + fileName);
-	      Path path = file.toPath();
-	      Resource resource = new FileSystemResource(path.toFile());
-	      //이미지타입 PNG로 고정
-	      return ResponseEntity.ok()
-	              .contentType(MediaType.IMAGE_PNG)
-	              .body(resource);
-	  }
-	  */
-	  @GetMapping("/image/{fileName}")
-	  public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) throws MalformedURLException {
-	      
+	      System.out.println("fileName : " + fileName);
 	      File file = new File("C:\\MyProgram\\image\\" + fileName);
 	      Path path = file.toPath();
 	      Resource resource = new FileSystemResource(path.toFile());

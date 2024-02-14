@@ -8,15 +8,28 @@
 <body>
 <form id="detailBoard">
 <!-- [[${detailboard}]] -->
-<div>제목</div>
+<h2>제목</h2>
 <div th:text="${detailboard.brdSub}"></div>
-<div>내용</div>
+
+<h2>내용</h2>
 <div th:text="${detailboard.brdContent}"></div>
-<!-- 게시글에 이미지가 없을 시  -->
-<div th:if="${not #strings.isEmpty(fileBoard.fileOriName)}">
+
+<!-- 게시글에 이미지가 없을 시 "?" 을 추가시 테이블 확인도 가능 -->
+<!-- 단일처리
+<div th:if="${not #strings.isEmpty(fileBoard?.fileOriName)}">
 <img th:src="@{/image/{fileName}(fileName=${fileBoard.fileName})}" alt="이미지" width="500" height="500"/>
 <div th:text="${fileBoard.fileOriName}"></div>
-</div> 
+</div>  
+-->
+<!-- 다중파일처리 -->
+<div th:if="${not #lists.isEmpty(fileBoard)}">
+    <div style="display: flex; flex-wrap: wrap;">
+        <div th:each="file : ${fileBoard}" style="margin-right: 10px; margin-bottom: 10px;">
+            <img th:src="@{/image/{fileName}(fileName=${file.fileName})}" alt="이미지" style="width: 200px; height: auto; margin-bottom: 5px;"/>
+            <div th:text="${file.fileOriName}"></div>
+        </div>
+    </div>
+</div>
 
 
 <input type="hidden" th:value="${detailboard.brdSub}" id="brdSub">
